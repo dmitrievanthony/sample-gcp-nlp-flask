@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request, json
 from google.cloud import language_v1 as language
+import proto
 
 app = Flask(__name__)
 
@@ -9,7 +10,7 @@ def sentiment():
     client = language.LanguageServiceClient()
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_sentiment(document=document)
-    return json.dumps(sentiment_analysis_result)
+    return proto.Message.to_json(sentiment_analysis_result)
 
 @app.route("/api/entities", methods=["POST"])
 def entities():
@@ -17,7 +18,7 @@ def entities():
     client = language.LanguageServiceClient()
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_entities(document=document)
-    return json.dumps(sentiment_analysis_result)
+    return proto.Message.to_json(sentiment_analysis_result)
 
 if __name__ == "__main__":
     # This is used when running locally. Gunicorn is used to run the
