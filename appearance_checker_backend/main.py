@@ -1,15 +1,15 @@
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, json
 from google.cloud import language_v1 as language
 
 app = Flask(__name__)
 
-@app.route("/api/sentiment")
+@app.route("/api/sentiment", methods=["POST"])
 def sentiment():
     text = request.data.decode("utf-8")
     client = language.LanguageServiceClient()
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_sentiment(document=document)
-    return sentiment_analysis_result
+    return json.dumps(sentiment_analysis_result)
 
 @app.route("/api/entities", methods=["POST"])
 def entities():
@@ -17,7 +17,7 @@ def entities():
     client = language.LanguageServiceClient()
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_entities(document=document)
-    return sentiment_analysis_result
+    return json.dumps(sentiment_analysis_result)
 
 if __name__ == "__main__":
     # This is used when running locally. Gunicorn is used to run the
