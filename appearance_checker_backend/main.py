@@ -7,6 +7,7 @@ app = Flask(__name__)
 @app.route("/api/sentiment", methods=["POST"])
 def sentiment():
     text = request.data.decode("utf-8")
+    print("Sentiment ", text)
     client = language.LanguageServiceClient()
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_sentiment(document=document)
@@ -15,6 +16,7 @@ def sentiment():
 @app.route("/api/entities", methods=["POST"])
 def entities():
     text = request.data.decode("utf-8")
+    print("Entities ", text)
     client = language.LanguageServiceClient()
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_entities(document=document)
