@@ -27,7 +27,7 @@ def entities():
 
 @app.route("/api/historical_links", methods=["GET"])
 def historical_links():
-    result = list(map(lambda row: {'link': row['link'], 'date': row['date']}, historical_data))
+    result = list(map(lambda row: {'link': row['link'], 'date': row['date'], 'sentiment_score': json.loads(row['sentiment_analysis_result'])['documentSentiment']['score']}, historical_data))
     return json.dumps(result)
 
 @app.route("/api/historical_analysis", methods=["GET"])
