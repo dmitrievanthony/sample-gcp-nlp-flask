@@ -27,7 +27,7 @@ def entities():
 
 @app.route("/api/historical_links", methods=["GET"])
 def historical_links():
-    result = list(map(lambda row: {'link': row['link'], 'data': row['data']}, data))
+    result = list(map(lambda row: {'link': row['link'], 'data': row['data']}, historical_data))
     return json.dumps(result)
 
 if __name__ == "__main__":
