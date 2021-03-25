@@ -4,6 +4,9 @@ import proto
 
 app = Flask(__name__)
 
+with open('data.json', 'r') as file:
+    historical_data = json.loads(file.read())
+
 @app.route("/api/sentiment", methods=["POST"])
 def sentiment():
     text = request.data.decode("utf-8")
@@ -21,6 +24,11 @@ def entities():
     document = language.Document(content=text, type_=language.Document.Type.PLAIN_TEXT)
     sentiment_analysis_result = client.analyze_entities(document=document)
     return proto.Message.to_json(sentiment_analysis_result)
+
+@app.route("/api/historical_links", methods=["GET"])
+def historical_links():
+    result = list(map(lambda row: {'link': row['link'], 'data': row['data']}, data))
+    return json.dumps(result)
 
 if __name__ == "__main__":
     # This is used when running locally. Gunicorn is used to run the

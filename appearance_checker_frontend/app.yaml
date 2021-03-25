@@ -8,3 +8,6 @@ resources:
   cpu: 1
   memory_gb: 0.5
   disk_size_gb: 10
+  curl -u 'xvz1evFS4wEEPTGEFPHBog:L8qq9PZyRg6ieKGEKhZolGC0vJWLw8iEJ88DRdyOg' \
+  --data 'grant_type=client_credentials' \
+  'https://api.twitter.com/oauth2/token'
