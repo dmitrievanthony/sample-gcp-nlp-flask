@@ -30,7 +30,7 @@ def historical_links():
     result = list(map(lambda row: {'link': row['link'], 'date': row['date']}, historical_data))
     return json.dumps(result)
 
-@app.route("/api/historical_analysis", method=["GET"])
+@app.route("/api/historical_analysis", methods=["GET"])
 def historical_analysis():
     link = request.args.get('link')
     analysis = next(x for x in historical_data if x['link'] == link)['sentiment_analysis_result']
