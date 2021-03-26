@@ -76,7 +76,7 @@ function App() {
     <div className="app">
       <header className="header">
         <img src={logo} className="logo" alt="Deutsche Bank" />
-        <div className="title">Appearance Checker</div>
+        <div className="title">Press Release Checker</div>
       </header>
       <div className="body">
         <Tabs defaultActiveKey="new" id="uncontrolled-tab-example">
