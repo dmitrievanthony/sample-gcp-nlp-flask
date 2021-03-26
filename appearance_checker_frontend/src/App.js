@@ -5,13 +5,26 @@ import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
   const [show, setShow] = useState(false);
   const [text, setText] = useState("");
   const [analysisResult, setAnalysisResult] = useState(undefined);
   const [overallSentimentResult, setOverallSentimentResult] = useState(0);
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/historical_links").then(res => res.json())
+      .then(
+        (result) => {
+          setLinks(result);
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -36,6 +49,10 @@ function App() {
   };
   const handleChange = (event) => setText(event.target.value);
 
+  const analyse = (link) => {
+    console.log("Analyze link " + link)
+  };
+
   var html = undefined
   if (analysisResult != undefined && show) {
     const calculateBackgroundColor = (s) => s.sentiment.score >= 0 ? "rgba(0, 255, 0, " + s.sentiment.magnitude + ")" : "rgba(255, 0, 0, " + s.sentiment.magnitude + ")";
@@ -59,7 +76,21 @@ function App() {
             </div>
           </Tab>
           <Tab eventKey="historical" title="View Historical Press Releases">
-            BBB
+            Links: {links.length}
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Link</th>
+                    <th>Analyse</th>
+                </tr>
+                {links.map((link) =>
+                    <tr>
+                        <td>{link.date}</td>
+                        <td><a href={link.link}>{link.link}</a></td>
+                        <td><Button variant="secondary" onClick={() => analyse(link.link)}>Analyse</Button></td>
+                    </tr>
+                )}
+            </table>
           </Tab>
         </Tabs>
       </div>
