@@ -88,18 +88,17 @@ function App() {
             </div>
           </Tab>
           <Tab eventKey="historical" title="View Historical Press Releases">
-            Links: {links.length}
             <table>
                 <tr>
                     <th>Date</th>
                     <th>Title</th>
-                    <th>Analyse</th>
+                    <th>Details</th>
                 </tr>
                 {links.map((link) =>
-                    <tr>
+                    <tr style={{backgroundColor: link.sentiment_score >= 0 ? "rgba(0, 255, 0, " + Math.abs(link.sentiment_score) + ")" : "rgba(255, 0, 0, " + Math.abs(link.sentiment_score) + ")"}}>
                         <td>{link.date}</td>
                         <td><a href={link.link}>{link.title}</a></td>
-                        <td><Button variant="secondary" onClick={() => analyse(link.link)}>Analyse</Button></td>
+                        <td><Button variant="secondary" onClick={() => analyse(link.link)}>Details</Button></td>
                     </tr>
                 )}
             </table>
