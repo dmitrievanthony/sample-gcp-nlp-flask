@@ -51,6 +51,18 @@ function App() {
 
   const analyse = (link) => {
     console.log("Analyze link " + link)
+    fetch("/api/historical_analysis?link=" + link).then(res => res.json())
+     .then(
+       (result) => {
+         setAnalysisResult(result);
+         setOverallSentimentResult(result.documentSentiment.score);
+         setShow(true);
+       },
+       (error) => {
+         console.log(error)
+         setShow(false);
+       }
+     )
   };
 
   var html = undefined
@@ -80,13 +92,13 @@ function App() {
             <table>
                 <tr>
                     <th>Date</th>
-                    <th>Link</th>
+                    <th>Title</th>
                     <th>Analyse</th>
                 </tr>
                 {links.map((link) =>
                     <tr>
                         <td>{link.date}</td>
-                        <td><a href={link.link}>{link.link}</a></td>
+                        <td><a href={link.link}>{link.title}</a></td>
                         <td><Button variant="secondary" onClick={() => analyse(link.link)}>Analyse</Button></td>
                     </tr>
                 )}
